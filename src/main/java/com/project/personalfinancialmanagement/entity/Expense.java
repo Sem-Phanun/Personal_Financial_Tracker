@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "expen_id")
+    @Column(name = "expense_id")
     private int expenseId;
 
     @Column(name = "description")
@@ -28,7 +28,7 @@ public class Expense {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @JoinColumn(name = "categor_id")
+    @JoinColumn(name = "category_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 }

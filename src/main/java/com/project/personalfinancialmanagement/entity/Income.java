@@ -20,9 +20,7 @@ public class Income {
     @Column(name = "amount")
     private BigDecimal amount;
     @Column(name = "income_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime date;
-
+    private LocalDateTime incomeDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
