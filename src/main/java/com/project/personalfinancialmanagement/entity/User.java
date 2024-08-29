@@ -15,9 +15,13 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-    @Column(name = "email")
+    @Column(name = "email" , unique = true, nullable = false)
     private String email;
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "status")
+    private Boolean status = true;
 
 }

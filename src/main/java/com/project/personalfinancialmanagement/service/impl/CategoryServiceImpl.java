@@ -5,7 +5,6 @@ import com.project.personalfinancialmanagement.exception.ApiException;
 import com.project.personalfinancialmanagement.exception.ResourceNotFoundException;
 import com.project.personalfinancialmanagement.repository.CategoryRepository;
 import com.project.personalfinancialmanagement.service.CategoryService;
-import com.project.personalfinancialmanagement.util.FormatText;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -46,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
         String text = "Category Id = %d not found".formatted(categoryId);
         Category categoryToUpdate = getCategoryById(categoryId);
         if (categoryToUpdate.getCategoryName() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,text);
+            throw new ApiException(HttpStatus.BAD_REQUEST,text);
         }
         categoryToUpdate.setCategoryName(category.getCategoryName());
         return categoryRepository.save(categoryToUpdate);

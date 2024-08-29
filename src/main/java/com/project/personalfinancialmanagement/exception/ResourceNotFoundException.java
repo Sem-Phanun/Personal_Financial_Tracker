@@ -11,6 +11,6 @@ public class ResourceNotFoundException extends ApiException{
     private Long resourceId;
 
     public ResourceNotFoundException(String resourceName, Long resourceId) {
-        super(HttpStatus.NOT_FOUND, String.format("%s with id = %d not found", resourceName, resourceId));
+        super(HttpStatus.NOT_FOUND, String.format("%s with id = %d not found",resourceName,resourceId));
     }
 }

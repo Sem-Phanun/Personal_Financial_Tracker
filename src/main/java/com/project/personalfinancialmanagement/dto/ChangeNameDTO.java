@@ -3,12 +3,7 @@ package com.project.personalfinancialmanagement.dto;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class ChangeNameDTO {
     private String firstName;
     private String lastName;
-    private String username;
-    private String email;
-    private String password;
-    private Boolean status;
-
 }
