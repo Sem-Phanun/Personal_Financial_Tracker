@@ -13,4 +13,8 @@ public class Category {
     private Long categoryId;
     @Column(name = "category_name")
     private String categoryName;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
