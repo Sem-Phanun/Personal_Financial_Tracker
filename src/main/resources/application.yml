@@ -11,3 +11,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: ${Key:kyeweiwor1234kyeweiwor1234kyeweiwor1234}
+          expiration-time-ms: 86400000
