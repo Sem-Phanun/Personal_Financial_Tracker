@@ -39,12 +39,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse login(AuthLoginDTO authLoginDTO) {
+
+        // Authenticate the user with the provided username and password
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authLoginDTO.getUsername(), authLoginDTO.getPassword())
         );
         try {
+            // Set the authentication context
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Load user details from the username
             UserDetails userDetails = userDetailsService.loadUserByUsername(authLoginDTO.getUsername());
+
+            // Retrieve the user from the repository
             User user = userRepository.findByUsername(userDetails.getUsername());
 
             // Validate if the user was found
@@ -61,9 +68,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User register(AuthRegisterDTO authRegisterDTO) {
+        // Map the AuthRegisterDTO to a User entity
         User user = AuthMapper.INSTANCE.toAuthRegister(authRegisterDTO);
+
+        // Encode the user password
         user.setPassword(passwordEncoder.encode(authRegisterDTO.getPassword()));
+
+        // Find the default role for the user
         Optional<Role> role = roleRepository.findByRole(RoleEnum.ROLE_USER);
+        // Set the user's role and status
         user.setRole(Collections.singleton(role.get()));
         user.setStatus(true);
         return userRepository.save(user);

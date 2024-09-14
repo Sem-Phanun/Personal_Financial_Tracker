@@ -20,27 +20,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deactivateUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
+        // Retrieve the user by ID, throwing an exception if not found
+        User user = findUserById(userId);
+        // Set the user's status to inactive (deactivated)
         user.setStatus(false);
+        // Save the updated user entity
         userRepository.save(user);
     }
 
     @Override
     public void activateUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
+        // Retrieve the user by ID, throwing an exception if not found
+        User user = findUserById(userId);
+        // Set the user's status to active (activated)
         user.setStatus(true);
         userRepository.save(user);
     }
 
     @Override
     public User changeName(Long userId, User changeNameDTO) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
+        // Retrieve the user by ID, throwing an exception if not found
+        User user = findUserById(userId);
+        // Check if the provided first name and last name are not empty
         if (Objects.equals(changeNameDTO.getFirstName(), "") || Objects.equals(changeNameDTO.getLastName(), "")) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "First Name and Last Name are required");
         }
+        // Update the user's first and last names
         user.setFirstName(changeNameDTO.getFirstName());
         user.setLastName(changeNameDTO.getLastName());
         return userRepository.save(user);
@@ -48,8 +53,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
+        // Retrieve the user by ID, throwing an exception if not found
+        User user = findUserById(userId);
         userRepository.delete(user);
     }
 
@@ -61,8 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
+        // Retrieve the user by ID, throwing an exception if not found
+        return findUserById(userId);
     }
 
     @Override
@@ -72,8 +77,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changeUsername(Long userId, UsernameDTO changeUsernameDTO) {
+        // Retrieve the user by ID
         User user = getUserById(userId);
         user.setUsername(changeUsernameDTO.getUsername());
         return userRepository.save(user);
+    }
+
+    //Improve code
+    private User findUserById(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found", userId));
     }
 }
