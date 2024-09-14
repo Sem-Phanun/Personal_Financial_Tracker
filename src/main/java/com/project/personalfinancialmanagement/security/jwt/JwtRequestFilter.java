@@ -31,18 +31,26 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
+
+        //Extract Authorization Header
         String authHeader = request.getHeader("Authorization");
+
+        // Check if the Authorization header is present and starts with "Bearer "
         if(Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         try{
+            //Extract and Verify JWT
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
 
+
+            //Check Authentication in Security Context
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+            // If the user is not authenticated, load user details and validate the token
             if (userEmail != null && authentication == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
@@ -54,6 +62,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
+
+            //Proceed with the Filter Chain
             filterChain.doFilter(request, response);
         }catch (Exception e) {
             handlerExceptionResolver.resolveException(request, response, null, e);

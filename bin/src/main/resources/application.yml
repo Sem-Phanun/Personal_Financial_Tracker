@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: personal-financial-management
+  datasource:
+    url: jdbc:postgresql://localhost:5432/financial_db
+    username: financial_admin
+    password: admin123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: ${Key:kyeweiwor1234kyeweiwor1234kyeweiwor1234}
+          expiration-time-ms: 86400000
